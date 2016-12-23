@@ -15,12 +15,14 @@ ENV DEST=/software/applications/$APP_NAME/
 ENV PATH=$DEST/$VERSION/:$DEST/$VERSION/bwakit:$PATH
 
 RUN yum install -y zlib-devel wget ; \
+    yum clean all ; \
     git clone $GIT ; \
     cd $APP_NAME ; \
     git checkout tags/$VERSION ; \
     make -j ; \
     mkdir -p /usr/share/licenses/$APP_NAME-$VERSION ; \
     cp COPYING /usr/share/licenses/$APP_NAME-$VERSION/ ; \
+    rm -rf .git ; \
     cd ../ ;  \
     mkdir -p $DEST ; \
     mv $APP_NAME $DEST/$VERSION
